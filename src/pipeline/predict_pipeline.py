@@ -4,9 +4,22 @@ from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
 
+from src.utils import load_object
+
 class PredictPipeline:
     def __init__(self):
         pass
+    def predict(self,features):
+        try:
+            model_path = os.path.join('artifacts','model.pkl')
+            logging.info('Loading model')
+            model = load_object(file_path=model_path)
+            logging.info('Model loaded successfully')
+            preds = model.predict(features)
+            return preds
+        except Exception as e:
+            logging.info('Exception occured in prediction')
+            raise CustomException(e, sys)
 
 class CustomData:
     def __init__(self,
